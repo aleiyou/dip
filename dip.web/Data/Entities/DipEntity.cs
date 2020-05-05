@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace dip.web.Data.Entities
 {
@@ -19,6 +16,8 @@ namespace dip.web.Data.Entities
 
 
         public string Plaque { get; set; }
+
+        public ICollection<TripEntity> Trips { get; set; }
 
     }
 }
