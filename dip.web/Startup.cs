@@ -38,6 +38,13 @@ namespace dip.web
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
+
+            /******** se añade servicio para la inyeccion de depencias para cargar la base de datos manual**************/
+
+            services.AddTransient<SeedDb>();
+
+            /********estes es el servicio hasta aca************************************/
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

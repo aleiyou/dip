@@ -1,24 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using dip.web.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace dip.web
 {
     public class Program
     {
+        /* propiedad modificada  *****************************************************************/
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+
+            IWebHost host = CreateWebHostBuilder(args).Build();
+            RunSeeding(host);
+            host.Run();
         }
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+        private static void RunSeeding(IWebHost host)
+        {
+            IServiceScopeFactory scopeFactory = host.Services.GetService<IServiceScopeFactory>();
+            using (IServiceScope scope = scopeFactory.CreateScope())
+            {
+                SeedDb seeder = scope.ServiceProvider.GetService<SeedDb>();
+
+                seeder.SeedAsync().Wait();
+            }
+        }
+
+        /* hasta aca va el codigo añadido*****************************************************************/
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args)
+        {
+            return WebHost.CreateDefaultBuilder(args)
+.UseStartup<Startup>();
+        }
     }
 }

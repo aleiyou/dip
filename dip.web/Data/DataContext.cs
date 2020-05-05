@@ -16,5 +16,20 @@ namespace dip.web.Data
 
         public DbSet<TripDetailEntity> TripDetails { get; set; }
 
+        /* creador de eventos para datos unicos*******************************************++*/
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<DipEntity>()
+              .HasIndex(t => t.Plaque)
+              .IsUnique();
+
+
+        }
+
+        /* ****************************************************************************/
+
     }
 }

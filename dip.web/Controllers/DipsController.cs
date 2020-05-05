@@ -60,11 +60,31 @@ namespace dip.web.Controllers
             {
                 dipEntity.Plaque = dipEntity.Plaque.ToUpper();
                 _context.Add(dipEntity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+            /****************************entrecachado para evento***************/
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+
+                {
+                    if (ex.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, ("la placa ya existe"));
+                    }
+                    else
+                    {
+
+
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
+                }
+                /***************************fin********************************/
             }
             return View(dipEntity);
-        }
+        } 
 
         // GET: Dips/Edit/5
         public async Task<IActionResult> Edit(int? id)
