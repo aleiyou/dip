@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using dip.web.Data;
+﻿using dip.web.Data;
 using dip.web.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Threading.Tasks;
 
 namespace dip.web.Controllers
 {
+
+    [Authorize(Roles = "Admin")]
+
     public class DipsController : Controller
     {
         private readonly DataContext _context;
@@ -61,7 +62,7 @@ namespace dip.web.Controllers
                 dipEntity.Plaque = dipEntity.Plaque.ToUpper();
                 _context.Add(dipEntity);
 
-            /****************************entrecachado para evento***************/
+                /****************************entrecachado para evento***************/
                 try
                 {
                     await _context.SaveChangesAsync();
@@ -84,7 +85,7 @@ namespace dip.web.Controllers
                 /***************************fin********************************/
             }
             return View(dipEntity);
-        } 
+        }
 
         // GET: Dips/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -146,6 +147,6 @@ namespace dip.web.Controllers
 
         }
 
-        
+
     }
 }

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroup')]/providers/Microsoft.Sql/servers/servidordip/databases/dip.web_db",
+      "type": "mssql.azure",
+      "connectionId": "Dipbasedatos",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}

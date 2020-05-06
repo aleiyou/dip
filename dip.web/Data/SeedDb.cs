@@ -26,7 +26,9 @@ namespace dip.web.Data
         public async Task SeedAsync()
         {
             await _dataContext.Database.EnsureCreatedAsync();
-        
+
+            await CheckRolesAsync();
+
             await CheckUserAsync("1010", "alex", "Barrera", "alexbarresanchez@gmail.com", "350 634 2747",
                  "Calle Luna Calle Sol", UserType.Admin);
 

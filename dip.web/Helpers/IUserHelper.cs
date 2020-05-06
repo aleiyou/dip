@@ -1,4 +1,5 @@
 ﻿using dip.web.Data.Entities;
+using dip.web.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace dip.web.Helpers
      
 
         Task<SignInResult> ValidatePasswordAsync(UserEntity user, string password);
+
+        Task<SignInResult> LoginAsync(LoginViewModel model);
 
         Task LogoutAsync();
         

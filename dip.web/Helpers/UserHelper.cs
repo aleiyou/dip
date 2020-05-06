@@ -1,4 +1,5 @@
 ﻿using dip.web.Data.Entities;
+using dip.web.Models;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,15 @@ namespace dip.web.Helpers
     {
         private readonly UserManager<UserEntity> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly SignInManager<UserEntity> _signInManager;
 
         public UserHelper(UserManager<UserEntity> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            SignInManager<UserEntity> SignInManager)
         {
             _userManager = userManager;
            _roleManager = roleManager;
+            _signInManager = SignInManager;
         }
 
         
@@ -61,16 +65,27 @@ namespace dip.web.Helpers
             return await _userManager.IsInRoleAsync(user, roleName);
         }
 
-       
+        public async Task<SignInResult> LoginAsync(LoginViewModel model)
 
-        public Task LogoutAsync()
         {
-            throw new NotImplementedException();
+            return await _signInManager.PasswordSignInAsync(
+                model.Username,
+                model.Password,
+                model.RememberMe,
+                false);
+
+        }
+
+        public async Task LogoutAsync()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         public Task<SignInResult> ValidatePasswordAsync(UserEntity user, string password)
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }
